@@ -1,16 +1,14 @@
 <?php
 namespace App\Classes;
 
-use App\Traits\ColorsDSGenerator; // Yet to be created
+use App\Traits\ColorsDataSetGenerator;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class Mastermind 
 {
-
-
-    use ColorsDSGenerator;
+    use ColorsDataSetGenerator;
 
     private array $colorsList;
     private array $guessedColorCombination;
@@ -25,7 +23,7 @@ class Mastermind
 
     public function getColorsDS() : array 
     {
-        $this->secretColorCombination = $colorPattern;
+        return $this->colorsList;
     }
 
     public function setSecretColorCombination(array $colorPattern)
@@ -81,15 +79,15 @@ class Mastermind
         $feedback = [];
         $codeMakerSecretCombination = $this->getSecretColorCombination();
 
-        foreach($this->guessedColorCombination as $key => $key) 
+        foreach($this->guessedColorCombination as $key => $value) 
         {
-            if (isset($codeMakerSecretCombination[$key]) && $codeMakerSecretCombination[$key] == $key) {
+            if (isset($codeMakerSecretCombination[$key]) && $codeMakerSecretCombination[$key] == $value) {
                 $feedback[] = 'black';
                 unset($codeMakerSecretCombination[$key]);
             }
-            elseif (in_array($key, $codeMakerSecretCombination, true)) 
+            elseif (in_array($value, $codeMakerSecretCombination, true)) 
             {
-                $i = array_search($key, $codeMakerSecretCombination);
+                $i = array_search($value, $codeMakerSecretCombination);
                 unset($codeMakerSecretCombination[$i]);
                 $feedback[] = 'white';
             } 

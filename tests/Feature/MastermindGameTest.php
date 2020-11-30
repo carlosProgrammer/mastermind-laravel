@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use App\Classes\Mastermind;
-use App\Traits\ColorDSGenerator;
+use App\Traits\ColorsDataSetGenerator;
 use Illuminate\Support\MessageBag;
 use Tests\TestCase;
 
@@ -11,7 +11,7 @@ class MastermindGameTest extends TestCase
 {
     public function test_trait_dependency_exists()
     {
-        $this->assertTrue(trait_exists(ColorsDSGenerator::class));
+        $this->assertTrue(trait_exists(ColorsDataSetGenerator::class));
     }
 
     public function test_mastermind_class_exists()
@@ -32,7 +32,7 @@ class MastermindGameTest extends TestCase
         $this->assertCount(4, $object->getSecretColorCombination());
     }
 
-    public function test_colors_DS_is_defined()
+    public function test_colors_dataset_is_defined()
     {
         $object = new Mastermind();
         $this->assertIsArray($object->getColorsDS());
@@ -71,10 +71,10 @@ class MastermindGameTest extends TestCase
         $this->assertTrue(isset($object->getClues()->messages()['guessed_combination'][0]));
     }
 
-    public function test_guess_colors_must_exists_in_colors_DS()
+    public function test_guess_colors_must_exists_in_colors_DataSet()
     {
         $object = new Mastermind();
-        $object->setGuessedColorCombination(['black', 'green', 'yellow', 'white']);
+        $object->setGuessedColorCombination(['black', 'red', 'aaa', 'white']);
         $this->assertInstanceOf(MessageBag::class, $object->getClues());
         $this->assertTrue(isset($object->getClues()->messages()['guessed_combination'][0]));
     }
@@ -89,8 +89,8 @@ class MastermindGameTest extends TestCase
     public function test_game_precise_feedback()
     {
         $object = new Mastermind();
-        $object->setSecretColorCombination(['black','white','green', 'yellow']);
-        $object->setGuessedColorCombination(['black','white','green', 'yellow']);
+        $object->setSecretColorCombination(['black','white','red', 'blue']);
+        $object->setGuessedColorCombination(['black','white','red', 'blue']);
         $this->assertEquals(['black', 'black', 'black', 'black'], $object->getClues());
     }
 
